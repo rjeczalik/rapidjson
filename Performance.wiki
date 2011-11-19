@@ -2,7 +2,7 @@ Some performance benchmarks are given in this page.
 
 = Introduction =
 
-One major focus of rapidjson is runtime performance. The source code includes a simple performance test, which currently compared performance between rapidjson, [http://lloyd.github.com/yajl/ YAJL] and [http://jsoncpp.sourceforge.net/ JsonCPP].
+One major focus of rapidjson is runtime performance. The source code includes a simple performance test, which currently compared performance between rapidjson, [http://lloyd.github.com/yajl/ YAJL] and [http://jsoncpp.sourceforge.net/ JsonCpp].
 
 =  Methodology =
 
