@@ -94,7 +94,7 @@ Besides, during parsing, rapidjson makes use of a stack data structure (`rapidjs
 
 == SSE2/SSE4.2 acceleration ==
 
-The following table shows the effects of SSE2/SSE4.2 acceleration. The first test is parsing a JSON text prefix with 1M whitespaces. The second test parses the 672KB test data.
+The following table shows the effects of SSE2/SSE4.2 acceleration. The first test is parsing a JSON text prefixed with 1M whitespaces. The second test parses the 672KB test data.
 
 VC 32-bit:
 || || strlen() || strspn() || rapidjson (no SIMD) || rapidjson (SSE2) || rapidjson (SSE4.2) ||
