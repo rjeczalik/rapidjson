@@ -6,7 +6,7 @@ One major focus of rapidjson is runtime performance. The source code includes a 
 
 =  Methodology =
 
-The main test data is a 672KB synthetic UTF-8 JSON file, obtained from [http://code.google.com/p/json-test-suite/downloads/detail?name=sample.zip]. 
+The main test data is a 672KB synthetic UTF-8 JSON file, obtained from [http://code.google.com/p/json-test-suite/downloads/detail?name=sample.zip json-test-suite]. 
 
 Testing platform:
   * Intel Core i7 CPU 920 2.67Ghz
