@@ -75,8 +75,8 @@ The following table shows the effects of SSE2/SSE4.2 acceleration. The first tes
 
 VC 32-bit:
 || || strlen() || strspn() || rapidjson (no SIMD) || rapidjson (SSE2) || rapidjson (SSE4.2) ||
-|| Skip 1MB whitespace || 752 || 3011 || 1349 || 170 || 102 ||
-|| SAX Parsing (672KB) || 512 || - || 984 || 737 || 644 ||
+|| Skip 1MB whitespace || 752 || 3011 || 1349 || 170 || *102* ||
+|| SAX Parsing (672KB) || 512 || - || 984 || 737 || *644* ||
 
 This optimization is particularly useful for large JSON data with indentation.
 
@@ -89,9 +89,10 @@ rapidjson detects the range of JSON numbers and triggers the appropriate event a
 For parsing real numbers, rapidjson uses a custom `double Pow10(int)` function to calculate the effect of exponent. This function uses look-up table. It is much faster than the standard library function `double pow(double, int)`. Here shows a comparison for one million calls in milliseconds.
 
 32-bit:
-||                   || VC  || ICC || GCC ||
-|| rapidjson Pow10() || 3   || 3   || 3   ||
-|| pow()             || 36  || 37  || 197 ||
+||     || rapidjson Pow10() || pow() ||
+|| VC  || *3*               || 36    ||
+|| ICC || *3*               || 37    || 
+|| GCC || *3*               || 197   || 
 
 = Further optimization =
 
