@@ -1,4 +1,4 @@
-This page compares some performance benchmark results of rapidjson 0.1 and other parers. It also gives some analysis.
+#summary Compares some performance benchmark results of rapidjson 0.1 and other parers. Also gives some analysis.
 
 = Introduction =
 
