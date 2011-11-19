@@ -24,17 +24,17 @@ All timing are in measured by running a test 1000 trials. The results below is t
 == VC 32-bit ==
 
 ||                                  || rapidjson || YAJL  || JsonCpp || 
-|| strlen()                         || 495       ||
+|| strlen()                         || 495       ||       ||         ||
 || SAX Parsing                      || *644*     || 3594  || -       || 
 || DOM Parsing (in-situ)            || *730*     || -     || -       || 
 || DOM Parsing                      || *944*     || 6149  || 6862    ||
 || Stringify of DOM                 || *1289*    || 2355  || 5449    ||
 || Stringify of DOM with formatting || *1754*    || 18289 || 10443   ||
- 
+
 == ICC 32-bit ==
 
 ||                                  || rapidjson || YAJL  || JsonCpp || 
-|| strlen()                         || 45        ||
+|| strlen()                         || 45        ||       ||         ||
 || SAX Parsing                      || *672*     || 3057  || -       || 
 || DOM Parsing (in-situ)            || *787*     || -     || -       ||
 || DOM Parsing                      || *1055*    || 4853  || 5803    ||
@@ -44,7 +44,7 @@ All timing are in measured by running a test 1000 trials. The results below is t
 == GCC 32-bit ==
 
 ||                                  || rapidjson || YAJL  || JsonCpp || 
-|| strlen()                         || 189       ||
+|| strlen()                         || 189       ||       ||         ||
 || SAX Parsing                      || *647*     || 3101  || -       || 
 || DOM Parsing (in-situ)            || *702*     || -     || -       ||
 || DOM Parsing                      || *796*     || 6316  || 6705    ||
