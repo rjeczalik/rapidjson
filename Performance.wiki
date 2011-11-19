@@ -58,7 +58,7 @@ All timing are in measured by running a test 1000 trials. The results below is t
 
 = Why rapidjson is fast? =
 
-rapidjson have made use of several techniques to archive high performance.
+rapidjson has made use of several techniques to achieve high performance.
 
 == C++ ==
 
