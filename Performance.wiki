@@ -57,7 +57,25 @@ rapidjson have made use of several techniques to archive high performance.
 
 == C++ ==
 
-rapidjson uses template instead of pointer to function or virtual function to get JSON text from stream, and send JSON events. Parse options is also implemented as template parameter. Even if more options are added in future, it will not incur performance degradation for unused options.
+rapidjson uses template instead of pointer to function or virtual function to get JSON text from stream, and send JSON events.
+
+Parse options is also implemented as template parameter. Even if more options are added in future, it will not incur performance degradation for unused options.
+
+In the DOM-style API, the `Value' class is for storing a JSON value as variant. To prevent the overhead of allocating and copying (e.g. copying an array), and the complexity of reference management (e.g. reference counting), rapidjson just make `Value` as non-copyable. However, the value can be assigned with other value with move semantics, i.e.
+
+{{{
+Value a(kArrayType);
+a.PushBack(10);
+a.PushBack(20);
+
+Value b; // default constructor makes a null JSON value.
+b = a;
+assert(b.IsArray());
+assert(b[0u] == 10);
+assert(b[1u] == 20);
+assert(a.IsNull());  // a becomes a null JSON value after the assignment.
+}}}
+
 
 == In-situ vs non-destructive ==
 
@@ -84,7 +102,7 @@ This optimization is particularly useful for large JSON data with indentation.
 
 Some JSON parsers convert JSON numbers to double. This not only reduce performance for parsing and converting the value back to integer, it also be problematic if the user need to parse 64-bit integers, which cannot be represented by double.
 
-rapidjson detects the range of JSON numbers and triggers the appropriate event accordingly. So it is fast and also providing full 64-bit integer precision.
+rapidjson uses the magnitude of JSON numbers to choose a suitable numeric data type, and triggers the appropriate event accordingly. So it is fast and also providing full 64-bit integer precision.
 
 For parsing real numbers, rapidjson uses a custom `double Pow10(int)` function to calculate the effect of exponent. This function uses look-up table. It is much faster than the standard library function `double pow(double, int)`. Here shows a comparison for one million calls in milliseconds.
 
