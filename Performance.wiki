@@ -61,7 +61,7 @@ rapidjson uses template instead of pointer to function or virtual function to ge
 
 Parse options is also implemented as template parameter. Even if more options are added in future, it will not incur performance degradation for unused options.
 
-In the DOM-style API, the `Value' class is for storing a JSON value as variant. To prevent the overhead of allocating and copying (e.g. copying an array), and the complexity of reference management (e.g. reference counting), rapidjson just make `Value` as non-copyable. However, the value can be assigned with other value with move semantics, i.e.
+In the DOM-style API, the `Value` class is for storing a JSON value as variant. To prevent the overhead of allocating and copying (e.g. copying an array), and the complexity of reference management (e.g. reference counting), rapidjson just make `Value` as non-copyable. However, the value can be assigned with other value with move semantics, i.e.
 
 {{{
 Value a(kArrayType);
