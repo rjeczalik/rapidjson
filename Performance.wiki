@@ -1,5 +1,7 @@
 #summary Compares some performance benchmark results of rapidjson 0.1 and other parers. Also gives some analysis.
 
+<g:plusone size="medium"></g:plusone>
+
 = Introduction =
 
 One major focus of rapidjson is runtime performance. The source code includes a simple performance test at `rapidjson/src/test/perftest`.
