@@ -1,8 +1,13 @@
-This page compares some performance benchmark results and gives some analysis.
+This page compares some performance benchmark results of rapidjson 0.1 and other parers. It also gives some analysis.
 
 = Introduction =
 
-One major focus of rapidjson is runtime performance. The source code includes a simple performance test, which currently compared performance between rapidjson, [http://lloyd.github.com/yajl/ YAJL] and [http://jsoncpp.sourceforge.net/ JsonCpp].
+One major focus of rapidjson is runtime performance. The source code includes a simple performance test at `rapidjson/src/test/perftest`.
+
+JSON Parers compared:
+  * rapidjson 0.1
+  * [http://lloyd.github.com/yajl/ YAJL] 2.01
+  * [http://jsoncpp.sourceforge.net/ JsonCpp] 0.5.0
 
 =  Methodology =
 
