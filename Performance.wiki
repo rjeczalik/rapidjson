@@ -1,0 +1,31 @@
+Some performance benchmarks are given in this page.
+
+= Introduction =
+
+One major focus of rapidjson is runtime performance. The source code includes a simple performance test, which currently compared performance between rapidjson, [http://lloyd.github.com/yajl/ YAJL] and [http://jsoncpp.sourceforge.net/ JsonCPP].
+
+=  Methodology =
+
+The main test data is a 672KB synthetic UTF-8 JSON file, obtained from [http://code.google.com/p/json-test-suite/downloads/detail?name=sample.zip]. 
+
+Testing platform:
+  * Intel Core i7 CPU 920 2.67Ghz
+  * Windows 7 64-bit
+  * Visual Studio 2010 (VC)
+  * Intel C++ Compiler 11.1 (ICC)
+  * GCC 4.5.3 in Cygwin 1.7.9 (GCC)
+
+= Results =
+
+Following results are compiled from rapidjson/test/perftest.
+
+All timing are in measured by running a test 1000 times. The results below is the average duration in microseconds.
+
+== VC 32-bit ==
+
+||    || rapidjson || YAJL || JsonCPP || 
+|| strlen() || 495 ||
+|| SAX Parsing || 644 || 3594 || - || 
+|| DOM Parsing || 730 || 6149 || 6862 ||
+|| Stringify of DOM || 1289 || 2355 || 5449 ||
+|| Stringify of DOM with formatting || 1754 || 18289 || 10443 ||
