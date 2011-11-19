@@ -23,7 +23,7 @@ All timing are in measured by running a test 1000 times. The results below is th
 
 == VC 32-bit ==
 
-||    || rapidjson || YAJL || JsonCPP || 
+||    || rapidjson || YAJL || JsonCpp || 
 || strlen() || 495 ||
 || SAX Parsing || 644 || 3594 || - || 
 || DOM Parsing || 730 || 6149 || 6862 ||
