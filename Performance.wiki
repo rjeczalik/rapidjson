@@ -109,7 +109,7 @@ Some JSON parsers convert JSON numbers to double. This not only reduce performan
 
 rapidjson uses the magnitude of JSON numbers to choose a suitable numeric data type, and triggers the appropriate event accordingly. So it is fast and also providing full 64-bit integer precision.
 
-For parsing real numbers, rapidjson uses a custom `double Pow10(int)` function to calculate the effect of exponent. This function uses look-up table. It is much faster than the standard library function `double pow(double, int)`. Here shows a comparison for one million calls in milliseconds.
+For parsing real numbers, rapidjson uses a custom `double Pow10(int)` function to calculate the effect of exponent. This function uses look-up table. It is much faster than using standard library function `double pow(10.0, int)`. Here shows a comparison for one million calls in milliseconds.
 
 32-bit:
 ||     || rapidjson Pow10() || pow() ||
