@@ -1,4 +1,4 @@
-#summary Compares some performance benchmark results of rapidjson 0.1 and other parers. Also gives some analysis.
+#summary Compares some performance benchmark results of rapidjson 0.1 and other parsers. Also gives some analysis.
 
 <g:plusone size="medium"></g:plusone>
 
