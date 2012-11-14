@@ -6,7 +6,7 @@
 
 One major focus of rapidjson is runtime performance. The source code includes a simple performance test at `rapidjson/src/test/perftest`.
 
-JSON Parers compared:
+JSON parsers compared:
   * rapidjson 0.1
   * [http://lloyd.github.com/yajl/ YAJL] 2.01
   * [http://jsoncpp.sourceforge.net/ JsonCpp] 0.5.0
