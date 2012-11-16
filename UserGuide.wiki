@@ -181,6 +181,10 @@ for (Value::ConstValueIterator itr = a.Begin(); itr != a.End(); ++itr)
     printf("%d ", itr->GetInt());
 }}}
 
+Finally, there are some query functions for array, which are similar to `std::vector`
+  * `SizeType Capacity() const`
+  * `bool Empty() const`
+
 === Quering Object ===
 Similarly, we can iterate object members by iterator:
 
@@ -376,19 +380,10 @@ s = "rapidjson";             // shortcut, same as above
 === Manipulating Array ===
 `Value` with array type provides similar APIs as `std::vector`.
 
-  * `SizeType Size() const`
-  * `SizeType Capacity() const`
-  * `bool Empty() const`
   * `Clear()`
-  * `Value& operator[]`
-  * `const Value& operator[] const`
-  * `ValueIterator Begin()`
-  * `ValueIterator End()`
-  * `ConstValueIterator Begin() const`
-  * `ConstValueIterator End() const`
   * `Reserve(SizeType, Allocator&)`
-  * `Value& PushBack(Value& value, Allocator& allocator)`
-  * `template <typename T> GenericValue& PushBack(T value, Allocator& allocator)`
+  * `Value& PushBack(Value&, Allocator&)`
+  * `template <typename T> GenericValue& PushBack(T, Allocator&)`
   * `Value& PopBack()`
 
 Note that, `Reserve(...)` and `PushBack(...)` may allocate memory, therefore requires an allocator.
@@ -409,6 +404,23 @@ a.PushBack("Lua", allocator).PushBack("Mio", allocator);
 Differs from STL, `PushBack()`/`PopBack()` returns the array reference itself. This is called [http://en.wikipedia.org/wiki/Fluent_interface fluent interface].
 
 === Manipulating Object ===
+Object is a collection of key-value pairs. Each key must be a string value. The way to manipulating object is to add/remove members:
+
+  * `Value& AddMember(Value&, Value&, Allocator& allocator)`
+  * `Value& AddMember(const Ch*, Allocator&, GenericValue& value, Allocator&)`
+  * `Value& AddMember(const Ch*, Value&, Allocator&)`
+  * `template <typename T> Value& AddMember(const Ch*, T value, Allocator&)`
+  * `bool RemoveMember(const Ch*)`
+
+There are 4 overloaded version of `AddMember()`. They are 4 combinations for supplying the name string (copy- or const-), whether to supply a different allocator for name string, and whether use generic type for value.
+
+Here is an example.
+
+{{{
+Value contact(kObejct);
+contact.AddMember("name", "Milo", document.GetAllocator());
+contact.AddMember("married", true, document.GetAllocator());
+}}}
 
 = 4. Document =
 
