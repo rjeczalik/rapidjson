@@ -1,4 +1,4 @@
-User guide for rapidjson version 0.11 and 0.2.
+#summary User guide for rapidjson version 0.11 and 0.2.
 
 = 1. Introduction =
 *rapidjson* is a C++ [http://www.json.org/ JSON] parser and generator. In other words, it helps a C++ program to read JSON data and write JSON data. 
