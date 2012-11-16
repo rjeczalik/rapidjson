@@ -364,8 +364,10 @@ Besides, the above `SetString()` requires the length of a string. This can handl
 Finally, for literal string or string with safe life-cycle can use const-string version of `SetString()`, which are without alloactor parameter:
 
 {{{
-s.SetString("rapidjson");    // slower, assume null-terminated
+Value s;
 s.SetString("rapidjson", 9); // faster, can contain null character
+s.SetString("rapidjson");    // slower, assumes null-terminated
+s = "rapidjson";             // shortcut, same as above
 }}}
 
 === Manipulating Array ===
