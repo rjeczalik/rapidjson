@@ -36,7 +36,7 @@ Download the [http://code.google.com/p/rapidjson/downloads/list released package
 
 If you obtained the release packages, there are build folders (`vs2008`, `vs2010`, `gmake`) in `/rapidjson/build/' already.
 
-Otherwise, please obtain [premake4 http://industriousone.com/premake/download], and then run `rapidjson/build/permake.bat` on Windows, or `rapidjson/build/premake`. These will generates the build folders.
+Otherwise, please obtain [http://industriousone.com/premake/download premake4], and then run `rapidjson/build/permake.bat` on Windows, or `rapidjson/build/premake`. These will generates the build folders.
 
 By using Visual C++, build test.sln and/or example.sln in `vs2008` or `vs2010`.
 
@@ -82,14 +82,199 @@ Some notes:
   * The number `0` in `Parse<0>` means using default parse flags. More flags will be explained.
   * The JSON string and the strings stored in DOM are assumed to be UTF-8. Encodings and character types will be discussed later.
 
-= 3. Value and Document =
+= 3. Value  =
+The DOM style API of *rapidjson* is provided by `Value` and `Document`.
 
-= 4. Reader =
+`Value` can be thought of a variant type, representing a JSON value which can stores either a null value, false, true, number, string, array or object. For being an array or object, a `Value` composes of a list of elements or members (key-value pairs).
 
-= 5. Writer =
+`Document` is derived from `Value`. It represents the root of a DOM. It introduces a few more APIs for parsing.
 
-= 6. Customization = 
+[http://yuml.me/diagram/plain;/class/%5BValue%5D%5E-%5BDocument%5D,%20%5BValue%5D++-*%5BValue%5D.png]
 
-== 6.1 Macros ==
+However, `Value` and `Document` are actually `typedef`s of `GenericValue` and `GenericDocument` class templates respectively, with UTF-8 encoding and default allocator as template parameters. We will come back to the details of these template parameters later.
 
-== 6.2 Memory Allocator  ==
+`Value` provides the major APIs for querying, creating, modifying, the DOM tree. 
+
+== 3.1. Querying Value ==
+Here, we will use some modified code from `rapidjson/example/tutorial` to show the usage of `Value`.
+
+Assumes we have a JSON text stored in a C string `const char* json`:
+{{{
+{
+	"hello": "world",
+	"t": true ,
+	"f": false,
+	"n": null,
+	"i": 123,
+	"pi": 3.1416,
+	"a": [
+		1,
+		2,
+		3,
+		4
+	]
+}
+}}}
+
+After we parse it into a document by
+
+{{{
+    rapidjson::Document document;
+    document.Parse<0>(json);
+}}}
+
+We will get the `document` object which is root value of the DOM tree.
+
+The root value of a conforming JSON should be either an object or an array. In this case, it is an object with 7 members.
+
+The following code shows some of the API usage of `Value`:
+
+{{{
+assert(document.IsObject());
+
+assert(document.HasMember("hello"));
+assert(document["hello"].IsString());
+printf("hello = %s\n", document["hello"].GetString());
+
+assert(document["t"].IsBool());		// JSON true/false are bool. Can also uses more specific function IsTrue().
+printf("t = %s\n", document["t"].GetBool() ? "true" : "false");
+
+assert(document["f"].IsBool());
+printf("f = %s\n", document["f"].GetBool() ? "true" : "false");
+
+printf("n = %s\n", document["n"].IsNull() ? "null" : "?");
+
+assert(document["i"].IsNumber());	// Number is a JSON type, but C++ needs more specific type.
+assert(document["i"].IsInt());		// In this case, IsUint()/IsInt64()/IsUInt64() also return true.
+printf("i = %d\n", document["i"].GetInt());	// Alternative (int)document["i"]
+
+assert(document["pi"].IsNumber());
+assert(document["pi"].IsDouble());
+printf("pi = %g\n", document["pi"].GetDouble());
+
+const Value& a = document["a"];	// Using a reference for consecutive access is handy and faster.
+assert(a.IsArray());
+for (SizeType i = 0; i < a.Size(); i++)	// rapidjson uses SizeType instead of size_t.
+	printf("a[%d] = %d\n", i, a[i].GetInt());
+}}}
+
+Since `Value` is a variant type, some APIs are only valid according to the contents. For example, `v.HasMember()` should only be called when `v` is an object. But due to performance consideration, *rapidjson* only checks these validity issues with `RAPIDJSON_ASSERT` macro (a custom definable assertion, by default is `assert()`). User may need to check the type of value, when the JSON may not follow the expected schema. This can be done with `IsObject()`, `IsBool()`, etc.
+
+=== Querying Array ===
+In the above example, we use `operator[SizeType]` to obtain an element using index. SizeType is by default`typedef` as `unsigned` (for both 32-bit and 64-bit architecture, so it is limited to store up to 2^32-1 values in an array even in a 64-bit environment, but this is customizable).
+
+You may access an array with literal indices such as  `a[1]`, `a[2]`. However, it will generates a *compilation error* when accessing the first element with *`a[0]`*. For example, Visual C++ will show this:
+
+{{{
+error C2593: 'operator [' is ambiguous
+}}}
+
+It is because 0 (the literal zero) in C++ can mean an numeric type (int, unsigned, etc.) or a null pointer of any type. The compiler cannot decide whether `a[0]` calls `operator[SizeType]` or `operator[const Ch*]`(for object member access). There are two workaround:
+
+  * `a[SizeType(0)]`
+  * `a[0u]`
+
+Besides using `Size()` and `operator[]` to obtain the elements in an array value, we can also use iterator, similar to `std::vector`:
+
+{{{
+for (Value::ConstValueIterator itr = a.Begin(); itr != a.End(); ++itr)
+    printf("%d ", itr->GetInt());
+}}}
+
+=== Quering Object ===
+Similarly, we can iterate object members by iterator:
+
+{{{
+static const char* kTypeNames[] = { "Null", "False", "True", "Object", "Array", "String", "Number" };
+for (Value::ConstMemberIterator itr = document.MemberBegin(); itr != document.MemberEnd(); ++itr)
+    printf("Type of member %s is %s\n", itr->name.GetString(), kTypeNames[itr->value.GetType()]);
+}}}
+
+which outputs:
+{{{
+Type of member hello is String
+Type of member t is True
+Type of member f is False
+Type of member n is Null
+Type of member i is Number
+Type of member pi is Number
+Type of member a is Array
+}}}
+
+In *rapidjson* version 0.1x, when `operator[const Ch*]` cannot find the member, it returns a reference to a null value singleton. This was a problematic design because the singleton can then be modified.
+
+Therefore, since *rapidjson* version 0.2, the behavior is changed. It generates an assertion fail when the member is not found.
+
+Another related issue is that, if we are unsure whether a member is exist, we need firstly call `HasMember()` and then call`operator[const Ch*]` to obtain the value. This incurs two lookup overheads. So, since *rapidjson* version 0.2, it publicizes the `FindMember()` function, which can check the existence of member and obtain its value at once:
+
+{{{
+Value::Member* m = document.FindMember("hello");
+if (m)
+    printf("%s\n", m->value.GetString());
+}}}
+
+=== Querying Number ===
+JSON provide a single numerical type called Number. Number can be integer or real numbers. RFC 4627 says the range of Number is specified by parser.
+
+As C++ provides several integer and floating point number types, *rapidjson* try to handle this with best possible range and performance.
+
+Therefore, when *rapidjson* parse a number value, it stores it as either one of the following type
+  * `unsigned` (32-bit unsigned integer)
+  * `int` (32-bit signed integer)
+  * `uint64_t` (64-bit unsigned integer)
+  * `int64_t` (64-bit signed integer)
+  * `double` (64-bit double precision floating point)
+
+When querying a number, you can check whether the number can be obtained as target type:
+
+  * `IsNumber()` whether the value is a number
+  * `IsInt()` whether the number is a `int`
+  * `IsUint()` whether the number is a `uint`
+  * `IsInt64()` whether the number is a `int64_t`
+  * `IsUint64()` whether the number is a `uint64_t`
+  * `IsDouble()` whether the number is a `double`
+
+Note that, an integer value may be obtained in various way without conversion. For example, A value `x` containing `123` will make `x.IsInt() == x.IsUint() == x.Int64() == x.Uint64() == ture`. But a value `y' containing `-3000000000` will only makes x.int64() == true.
+
+When obtaining the numeric value by `GetXXX()`, only `GetDouble()` may  convert the internal integer representation to a `double`. `int` and `uint` can be safely convert to `double`, but `int64_t` and `uint64_t` may lose some precision (since mantissa of double is only 52-bits.
+
+=== Querying String ===
+In addition to providing the obvious `GetString()` function, *rapidjson* also provides a `GetStringLength()` function. Here explains why.
+
+According to RFC 4627, JSON string can contain unicode character `U+0000`, which must be escaped as `"\u0000"`. The problem is that, C/C++ often uses null-terminated string, treats `\0' as the terminal symbol of these string.
+
+To conform RFC 4627, *rapidjson* supports string containing `U+0000`. If user want to handle this, he/she should use GetStringLength() API to obtain the correct length of string.
+
+For example, after parsing a the following JSON string to `Document d`.
+
+{{{
+{ "s" :  "a\u0000b" }
+}}}
+
+The correct length of the value "a\u0000b" is 3. But `strlen()` will just returns 1.
+
+`GetStringLength()` can also improve performance, as user may often need to call `strlen()` for allocating buffer. 
+
+Besides, `std::string` also support a constructor:
+{{{
+basic_string( const CharT* s,
+              size_type count, 
+              const Allocator& alloc = Allocator() );
+}}}
+which accepts the length of string as parameter. This constructor supports null character in the string, and should also provide better performance.
+
+== 3.2. Creating and modifying values ==
+
+
+
+= 4. Document =
+
+= 5. Reader =
+
+= 6. Writer =
+
+= 7. Customization = 
+
+== 7.1 Macros ==
+
+== 7.2 Memory Allocator  ==
