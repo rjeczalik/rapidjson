@@ -1,0 +1,58 @@
+User guide for rapidjson version 0.11 and 0.2.
+
+= 1. Introduction =
+*rapidjson* is a C++ [http://www.json.org/ JSON] parser and generator. In other words, it helps a C++ program to read JSON data and write JSON data.
+
+== 1.1. Requirements   ==
+*rapidjson* is written in C++ with very few dependencies (no BOOST, no STL). 
+
+It is designed to be run on 32-bit and 64-bit platforms.
+
+During development, *rapidjson* is mainly tested with these compilers
+  * Visual C++ 2008, 2010
+  * Intel C++ Composer XE 2011
+  * GNU Compiler Collection (gcc) 3 and 4
+
+and these platforms
+  * Microsoft Windows
+  * OS X
+  * Linux
+
+But other compilers/platforms may work as well. Please report to us on other compilers/platforms that can successfully adopted *rapidjson*.
+
+== 1.2. Installation ==
+Download the [http://code.google.com/p/rapidjson/downloads/list released packages] or getting the latest source from [http://code.google.com/p/rapidjson/source/browse/ SVN repository].
+
+*rapidjson* is a header-only library. That means, just copy `rapidjson/include/rapidjson` and its sub-directories to your project or other include paths.
+
+== 1.3. Tests and examples ==
+*rapidjson* include unit tests, performance tests and examples.
+
+If you obtained the release packages, there are build folders (`vs2008`, `vs2010`, `gmake`) in `/rapidjson/build/' already.
+
+Otherwise, please obtain [premake4 http://industriousone.com/premake/download], and then run `rapidjson/build/permake.bat` on Windows, or `rapidjson/build/premake`. These will generates the build folders.
+
+By using Visual C++, build test.sln and/or example.sln in `vs2008` or `vs2010`.
+
+By using GNU make, run GNU make in `build/gmake`, for example
+
+{{{
+$make -f test.make config=release32
+$make -f example.make config=debug32
+}}}
+
+On success, the executable are generated at rapidjson/bin
+
+= 2. Hello World =
+
+= 3. Reader =
+
+= 4. Value and Document =
+
+= 5. Writer =
+
+= 6. Customization = 
+
+== 6.1 Macros ==
+
+== 6.2 Memory Allocator  ==
