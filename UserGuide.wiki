@@ -241,7 +241,7 @@ When obtaining the numeric value by `GetXXX()`, only `GetDouble()` may  convert 
 === Querying String ===
 In addition to providing the obvious `GetString()` function, *rapidjson* also provides a `GetStringLength()` function. Here explains why.
 
-According to RFC 4627, JSON string can contain unicode character `U+0000`, which must be escaped as `"\u0000"`. The problem is that, C/C++ often uses null-terminated string, treats `\0' as the terminal symbol of these string.
+According to RFC 4627, JSON string can contain unicode character `U+0000`, which must be escaped as `"\u0000"`. The problem is that, C/C++ often uses null-terminated string, which treats `\0' as the terminal symbol.
 
 To conform RFC 4627, *rapidjson* supports string containing `U+0000`. If user want to handle this, he/she should use GetStringLength() API to obtain the correct length of string.
 
