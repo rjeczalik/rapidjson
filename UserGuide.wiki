@@ -236,7 +236,7 @@ When querying a number, you can check whether the number can be obtained as targ
 
 Note that, an integer value may be obtained in various way without conversion. For example, A value `x` containing `123` will make `x.IsInt() == x.IsUint() == x.Int64() == x.Uint64() == ture`. But a value `y' containing `-3000000000` will only makes x.int64() == true.
 
-When obtaining the numeric value by `GetXXX()`, only `GetDouble()` may  convert the internal integer representation to a `double`. `int` and `uint` can be safely convert to `double`, but `int64_t` and `uint64_t` may lose some precision (since mantissa of double is only 52-bits.
+When obtaining the numeric value by `GetXXX()`, only `GetDouble()` may  convert the internal integer representation to a `double`. `int` and `uint` can be safely convert to `double`, but `int64_t` and `uint64_t` may lose some precision (since mantissa of double is only 52-bits).
 
 === Querying String ===
 In addition to providing the obvious `GetString()` function, *rapidjson* also provides a `GetStringLength()` function. Here explains why.
