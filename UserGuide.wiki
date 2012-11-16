@@ -24,6 +24,8 @@ and these platforms
 
 But other compilers/platforms may work as well. Please report to us on other compilers/platforms that can successfully adopted *rapidjson*.
 
+*rapidjson* contains code with [http://en.wikipedia.org/wiki/SSE2 SSE2] and [http://en.wikipedia.org/wiki/SSE4#SSE4.2 SSE4.2] optimization. But this is optional.
+
 == 1.2. Installation ==
 Download the [http://code.google.com/p/rapidjson/downloads/list released packages] or getting the latest source from [http://code.google.com/p/rapidjson/source/browse/ SVN repository].
 
