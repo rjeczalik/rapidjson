@@ -119,8 +119,8 @@ Assumes we have a JSON text stored in a C string `const char* json`:
 After we parse it into a document by
 
 {{{
-    rapidjson::Document document;
-    document.Parse<0>(json);
+rapidjson::Document document;
+document.Parse<0>(json);
 }}}
 
 We will get the `document` object which is root value of the DOM tree.
