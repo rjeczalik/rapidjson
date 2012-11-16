@@ -1,7 +1,9 @@
 User guide for rapidjson version 0.11 and 0.2.
 
 = 1. Introduction =
-*rapidjson* is a C++ [http://www.json.org/ JSON] parser and generator. In other words, it helps a C++ program to read JSON data and write JSON data.
+*rapidjson* is a C++ [http://www.json.org/ JSON] parser and generator. In other words, it helps a C++ program to read JSON data and write JSON data. It fully conforms [RFC4627 http://www.ietf.org/rfc/rfc4627.txt].
+
+*rapidjson* supports SAX (Simple API for XML) style and DOM (Document Object Model) for parsing. 
 
 == 1.1. Requirements   ==
 *rapidjson* is written in C++ with very few dependencies (no BOOST, no STL). 
@@ -45,7 +47,7 @@ On success, the executable are generated at rapidjson/bin
 
 = 2. Hello World =
 
-The following code is the simplest way of using *rapidjson*. It parses a JSON text string to a DOM tree.
+The following code is the simplest way of using *rapidjson*.
 
 {{{
 #include "rapidjson/document.h"
@@ -68,6 +70,13 @@ This program outputs
 {{{
 world
 }}}
+
+This example parse a JSON text string into a DOM tree. Then it obtains the `"hello"` member of the root JSON object. Finally it obtains the string of that value, which is `"world"`.
+
+Some notes:
+  * All types of *rapidjson* is in namespace `rapidjson`
+  * The number `0` in `Parse<0>` means using default parse flags. More flags will be explained.
+  * The JSON string and the strings stored in DOM are assumed to be UTF-8. Encodings and character types will be discussed later.
 
 = 3. Value and Document =
 
