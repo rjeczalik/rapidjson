@@ -172,7 +172,7 @@ You may access an array with literal indices such as  `a[1]`, `a[2]`. However, i
 error C2593: 'operator [' is ambiguous
 }}}
 
-It is because 0 (the literal zero) in C++ can mean an numeric type (int, unsigned, etc.) or a null pointer of any type. The compiler cannot decide whether `a[0]` calls `operator[SizeType]` or `operator[const Ch*]`(for object member access). There are two workaround:
+It is because 0 (the literal zero) in C++ can mean an numeric type (int, unsigned, etc.) or a null pointer of any type. The compiler cannot decide whether `a[0]` should call `operator[SizeType]` or `operator[const Ch*]`(for object member access). There are two workaround:
 
   * `a[SizeType(0)]`
   * `a[0u]`
