@@ -54,7 +54,7 @@ The following code is the simplest way of using *rapidjson*. It parses a JSON te
 int main() {
     const char json[] = "{ \"hello\" : \"world\" }";
 
-    Document d;
+    rapidjson::Document d;
     d.Parse<0>(json);
 
     printf("%s", d["hello"]);
