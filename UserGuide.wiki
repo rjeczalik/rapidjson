@@ -23,7 +23,7 @@ But other compilers/platforms may work as well. Please report to us on other com
 == 1.2. Installation ==
 Download the [http://code.google.com/p/rapidjson/downloads/list released packages] or getting the latest source from [http://code.google.com/p/rapidjson/source/browse/ SVN repository].
 
-*rapidjson* is a header-only library. That means, just copy `rapidjson/include/rapidjson` and its sub-directories to your project or other include paths.
+*rapidjson* is a header-only library. That means, the only thing to be done is to copy `rapidjson/include/rapidjson` and its sub-directories to your project or other include paths.
 
 == 1.3. Tests and examples ==
 *rapidjson* include unit tests, performance tests and examples.
@@ -44,6 +44,28 @@ $make -f example.make config=debug32
 On success, the executable are generated at rapidjson/bin
 
 = 2. Hello World =
+
+The following code is the simplest way of using *rapidjson*. It parses a JSON text string to a DOM tree.
+
+{{{
+#include "rapidjson/document.h"
+#include <cstdio>
+
+int main() {
+    const char json[] = "{ \"hello\" : \"world\" }";
+
+    Document d;
+    d.Parse<0>(json);
+
+    printf("%s", d["hello"]);
+}
+}}}
+
+This program outputs
+
+{{{
+world
+}}}
 
 = 3. Reader =
 
