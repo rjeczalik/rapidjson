@@ -349,7 +349,9 @@ Value o(kObjectType);
 }}}
 
 === Manipulating String ===
-*rapidjson* provide two strategies for storing string. The first one called *copy-string*, which allocates a buffer, and then copy the source data into it. The second one called *const-string*, which  simply store a pointer of string.
+*rapidjson* provide two strategies for storing string. 
+  # copy-string: allocates a buffer, and then copy the source data into it.
+  # const-string: simply store a pointer of string.
 
 Copy-string is always safe because it owns a copy of the data. Const-string can be used for storing string literal, and in-situ parsing which we will mentioned in `Document`.
 
