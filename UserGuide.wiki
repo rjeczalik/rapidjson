@@ -268,7 +268,7 @@ There are several ways to create values.
 
 === Changing Value Type ===
 
-When creating a Value or Document by default constructor, its type is Null. To change its type, call `SetXXX()`, for example:
+When creating a Value or Document by default constructor, its type is Null. To change its type, call `SetXXX()` or assignment operator, for example:
 
 {{{
 Document d;
@@ -276,6 +276,7 @@ d.SetObject();
 
 Value v;
 v.SetInt(10);
+v = 10; // Shortcut, same as above
 }}}
 
 === Overloaded Constructors ===
@@ -289,7 +290,7 @@ Value u(123u);    // calls Value(unsigned)
 Value d(1.5);     // calls Value(double)
 }}}
 
-To create empty object or array, you may use `SetObject()`/`SetArray()` after default constructor, or using the this constructor in one step:
+To create empty object or array, you may use `SetObject()`/`SetArray()` after default constructor, or using the `Value(Type)` in one shot:
 
 {{{
 Value o(kObjectType);
