@@ -263,9 +263,116 @@ basic_string( const CharT* s,
 }}}
 which accepts the length of string as parameter. This constructor supports null character in the string, and should also provide better performance.
 
-== 3.2. Creating and modifying values ==
+== 3.2. Creating values ==
+There are several ways to create values.
+
+=== Changing Value Type ===
+
+When creating a Value or Document by default constructor, its type is Null. To change its type, call `SetXXX()`, for example:
+
+{{{
+Document d;
+d.SetObject();
+
+Value v;
+v.SetInt(10);
+}}}
+
+=== Overloaded Constructors ===
+
+There are also overloaded constructors for several types:
+
+{{{
+Value b(true);    // calls Value(bool)
+Value i(-123);    // calls Value(int)
+Value u(123u);    // calls Value(unsigned)
+Value d(1.5);     // calls Value(double)
+}}}
+
+To create empty object or array, you may use `SetObject()`/`SetArray()` after default constructor, or using the this constructor in one step:
+
+{{{
+Value o(kObjectType);
+Value a(kArrayType);
+}}}
+
+=== Move Semantics ===
+A very special decision during design of *rapidjson* is that, assignment of value does not copy the source to destination. Instead, the value from source is *moved* to the destination. For example,
+
+{{{
+Value a(123);
+Value b(456);
+b = a;         // a becomes a Null value, b becomes number 123.
+}}}
+
+Why? What is the advantage of this semantics?
+
+The simple answer is performance. For fixed size JSON types (Number, True, False, Null), copying them is fast and easy. However, For variable size JSON types (String, Array, Object), copying them will incur a lot of overheads. And these overheads are often unnoticed. Especially when we need to create temporary object, copy it to another variable, and then destruct it. 
+
+For example, if normal copy semantics is used
+
+{{{
+Value o(kObjectType);
+{
+    Value contacts(kArrayType);
+    // adding elements to contacts array.
+    o.AddMember("contacts", contacts);  // deep clone contacts (may be with lots of allocations)
+    // destruct contacts.
+}
+}}}
+
+`o` need to allocate a same size buffer as contacts, make a deep clone of it, and then destruct contacts. This will incur a lot of unnecessary allocations/deallocations.
+
+There are solutions to prevent actual copying these data, such as reference counting and garbage collection(GC).
+
+To make *rapidjson* simple and fast, we chose to use move semantics for assignment. It is similar to `auto_ptr<>`. Move is much faster and simpler, it just destruct the original value, `memcpy()` the source to destination, and finally set the source as Null type.
+
+So, with move semantics, the above example become:
+{{{
+Value o(kObjectType);
+{
+    Value contacts(kArrayType);
+    // adding elements to contacts array.
+    o.AddMember("contacts", contacts);  // just a memcpy() of single Value
+    // contacts became Null here. Its destruction is trivial.
+}
+}}}
+
+=== Manipulating String ===
+*rapidjson* provide two strategies for storing string. The first one called *copy-string*, which allocates a buffer, and then copy the source data into it. The second one called *const-string*, which  simply store a pointer of string.
+
+Copy-string is always safe because it owns a copy of the data. Const-string can be used for storing string literal, and in-situ parsing which we will mentioned in `Document`.
+
+To make memory allocation customizable, *rapidjson* needs user to pass an instance of allocator, whenever that operation may require allocation. This design is more flexible than STL's allocator type per class, as we can assign a allocator instance for each allocation.
+
+Therefore, when we assign a copy-string, we call this overloaded `SetString()` with allocator:
+
+{{{
+Document document;
+Value author;
+char buffer[10];
+int len = sprintf(buffer, "%s %s", "Milo", "Yip"); // dynamically created string.
+author.SetString(buffer, len, document.GetAllocator());
+memset(buffer, 0, sizeof(buffer));
+// author.GetString() still contains "Milo Yip" after buffer is destroyed
+}}}
+
+In this example, we get the allocator from a `Document` instance. This is a common idiom when using *rapidjson*. But you may use other instances of allocator.
+
+Besides, the above `SetString()` requires the length of a string. This can handle null characters within a string. There is another `SetString()` overloaded function without the length parameter. And it actually assumes the input is null-terminated and calls a `strlen()`-like function to obtain the length.
+
+Finally, for literal string or string with safe life-cycle can use const-string version of `SetString()`, which are without alloactor parameter:
+
+{{{
+s.SetString("rapidjson");    // slower, assume null-terminated
+s.SetString("rapidjson", 9); // faster, can contain null character
+}}}
+
+=== Manipulating Array ===
+`Value' with array type provides similar APIs as `std::vector`.
 
 
+=== Manipulating Object ===
 
 = 4. Document =
 
