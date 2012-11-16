@@ -317,6 +317,7 @@ Value o(kObjectType);
 {
     Value contacts(kArrayType);
     // adding elements to contacts array.
+    // ...
     o.AddMember("contacts", contacts);  // deep clone contacts (may be with lots of allocations)
     // destruct contacts.
 }
