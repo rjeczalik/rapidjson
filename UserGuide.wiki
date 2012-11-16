@@ -1,7 +1,9 @@
 User guide for rapidjson version 0.11 and 0.2.
 
 = 1. Introduction =
-*rapidjson* is a C++ [http://www.json.org/ JSON] parser and generator. In other words, it helps a C++ program to read JSON data and write JSON data. It fully conforms [http://www.ietf.org/rfc/rfc4627.txt RFC4627].
+*rapidjson* is a C++ [http://www.json.org/ JSON] parser and generator. In other words, it helps a C++ program to read JSON data and write JSON data. 
+
+*rapidjson* fully conforms [http://www.ietf.org/rfc/rfc4627.txt RFC4627].
 
 *rapidjson* supports SAX (Simple API for XML) style and DOM (Document Object Model) for parsing. 
 
