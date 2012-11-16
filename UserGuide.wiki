@@ -58,6 +58,8 @@ int main() {
     d.Parse<0>(json);
 
     printf("%s", d["hello"]);
+
+    return 0;
 }
 }}}
 
