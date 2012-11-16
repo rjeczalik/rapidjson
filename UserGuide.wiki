@@ -69,9 +69,9 @@ This program outputs
 world
 }}}
 
-= 3. Reader =
+= 3. Value and Document =
 
-= 4. Value and Document =
+= 4. Reader =
 
 = 5. Writer =
 
