@@ -428,8 +428,10 @@ contact.AddMember("married", true, document.GetAllocator());
 
 = 6. Writer =
 
-= 7. Customization = 
+= 7. Encoding =
 
-== 7.1 Macros ==
+= 8. Customization = 
 
-== 7.2 Memory Allocator  ==
+== 8.1 Macros ==
+
+== 8.2 Memory Allocator  ==
