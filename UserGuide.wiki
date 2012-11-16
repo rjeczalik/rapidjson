@@ -263,8 +263,9 @@ basic_string( const CharT* s,
 }}}
 which accepts the length of string as parameter. This constructor supports null character in the string, and should also provide better performance.
 
-== 3.2. Creating values ==
-There are several ways to create values.
+== 3.2. Creating and Modifying Values ==
+
+There are several ways to create values. After a DOM tree is created and/or modified, it can be saved as JSON again using Writer.
 
 === Changing Value Type ===
 
@@ -373,8 +374,39 @@ s = "rapidjson";             // shortcut, same as above
 }}}
 
 === Manipulating Array ===
-`Value' with array type provides similar APIs as `std::vector`.
+`Value` with array type provides similar APIs as `std::vector`.
 
+  * `SizeType Size() const`
+  * `SizeType Capacity() const`
+  * `bool Empty() const`
+  * `Clear()`
+  * `Value& operator[]`
+  * `const Value& operator[] const`
+  * `ValueIterator Begin()`
+  * `ValueIterator End()`
+  * `ConstValueIterator Begin() const`
+  * `ConstValueIterator End() const`
+  * `Reserve(SizeType, Allocator&)`
+  * `Value& PushBack(Value& value, Allocator& allocator)`
+  * `template <typename T> GenericValue& PushBack(T value, Allocator& allocator)`
+  * `Value& PopBack()`
+
+Note that, `Reserve(...)` and `PushBack(...)` may allocate memory, therefore requires an allocator.
+
+Here is an example of `PushBack()`:
+
+{{{
+Value a(kArrayType);
+Document::AllocatorType& allocator = document.GetAllocator();
+
+for (int i = 5; i <= 10; i++)
+    a.PushBack(i, allocator);	// allocator is needed for potentially realloc.
+
+// Fluent interface
+a.PushBack("Lua", allocator).PushBack("Mio", allocator);
+}}}
+
+Differs from STL, `PushBack()`/`PopBack()` returns the array reference itself. This is called [http://en.wikipedia.org/wiki/Fluent_interface fluent interface].
 
 === Manipulating Object ===
 
