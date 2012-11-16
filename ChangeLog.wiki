@@ -8,6 +8,7 @@
   * Fixed some memory alignment issues
   * Eliminate warnings at maximum level
   * Other Bug fixes
+  * Added demonstration of iteration APIs in tutorial
 
 == Version 0.1 (18 Nov 2011) ==
   * Initial release.
