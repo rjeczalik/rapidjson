@@ -57,7 +57,7 @@ int main() {
     rapidjson::Document d;
     d.Parse<0>(json);
 
-    printf("%s", d["hello"]);
+    printf("%s\n", d["hello"].GetString());
 
     return 0;
 }
