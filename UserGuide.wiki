@@ -81,7 +81,7 @@ world
 This example parse a JSON text string into a DOM tree. Then it obtains the `"hello"` member of the root JSON object. Finally it obtains the string of that value, which is `"world"`.
 
 Some notes:
-  * All types of *rapidjson* resides in namespace `rapidjson`
+  * All types of *rapidjson* reside in namespace `rapidjson`
   * The number `0` in `Parse<0>` means using default parse flags. More flags will be explained.
   * The JSON string and the strings stored in DOM are assumed to be UTF-8. Encodings and character types will be discussed later.
 
