@@ -161,7 +161,7 @@ for (SizeType i = 0; i < a.Size(); i++)	// rapidjson uses SizeType instead of si
 Since `Value` is a variant type, some APIs are only valid according to the contents. For example, `v.HasMember()` should only be called when `v` is an object. But due to performance consideration, *rapidjson* only checks these validity issues with `RAPIDJSON_ASSERT` macro (a custom definable assertion, by default is `assert()`). User may need to check the type of value, when the JSON may not follow the expected schema. This can be done with `IsObject()`, `IsBool()`, etc.
 
 === Querying Array ===
-In the above example, we use `operator[SizeType]` to obtain an element using index. SizeType is by default`typedef` as `unsigned` (for both 32-bit and 64-bit architecture, so it is limited to store up to 2^32-1 values in an array even in a 64-bit environment, but this is customizable).
+In the above example, we use `operator[SizeType]` to obtain an element using index. `SizeType` is by default `typedef` as `unsigned` (for both 32-bit and 64-bit architecture, so it is limited to store up to 2^32-1 values in an array even in a 64-bit environment, but this is customizable).
 
 You may access an array with literal indices such as  `a[1]`, `a[2]`. However, it will generates a *compilation error* when accessing the first element with *`a[0]`*. For example, Visual C++ will show this:
 
