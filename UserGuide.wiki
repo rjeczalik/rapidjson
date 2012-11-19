@@ -331,11 +331,11 @@ Value o(kObjectType);
 }
 }}}
 
-`o` need to allocate a same size buffer as contacts, make a deep clone of it, and then destruct contacts. This will incur a lot of unnecessary allocations/deallocations.
+The object `o` needs to allocate a same size buffer as `contacts`, makes a deep clone of it, and then finally `contacts` is destructed. This will incur a lot of unnecessary allocations/deallocations.
 
 There are solutions to prevent actual copying these data, such as reference counting and garbage collection(GC).
 
-To make *rapidjson* simple and fast, we chose to use move semantics for assignment. It is similar to `auto_ptr<>`. Move is much faster and simpler, it just destruct the original value, `memcpy()` the source to destination, and finally set the source as Null type.
+To make *rapidjson* simple and fast, we chose to use move semantics for assignment. It is similar to `auto_ptr<>` which transfer ownership during assignment. Move is much faster and simpler, it just destructs the original value, `memcpy()` the source to destination, and finally sets the source as Null type.
 
 So, with move semantics, the above example become:
 {{{
@@ -343,7 +343,7 @@ Value o(kObjectType);
 {
     Value contacts(kArrayType);
     // adding elements to contacts array.
-    o.AddMember("contacts", contacts);  // just a memcpy() of single Value
+    o.AddMember("contacts", contacts);  // just memcpy() of contacts itself to the value of new member (16 bytes)
     // contacts became Null here. Its destruction is trivial.
 }
 }}}
