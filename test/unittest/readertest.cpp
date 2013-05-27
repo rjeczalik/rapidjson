@@ -308,7 +308,8 @@ TEST(Reader, ParseString_NonDestructive) {
 	EXPECT_EQ(11u, h.length_);
 }
 
-bool TestString(const char* str) {
+template<typename Char>
+bool TestString(const Char* str) {
 	StringStream s(str);
 	BaseReaderHandler<> h;
 	Reader reader;
@@ -319,8 +320,8 @@ TEST(Reader, ParseString_Error) {
 #define ARRAY(...) { __VA_ARGS__ }
 #define TEST_STRINGARRAY_ERROR(Encoding, array) \
 	{ \
-		static const Encoding::Ch e[] = array; \
-		EXPECT_FALSE(TestString(e)); \
+		static const unsigned char e[] = array; \
+		EXPECT_FALSE(TestString(reinterpret_cast<const Encoding::Ch*>(e))); \
 	}
 
 	EXPECT_FALSE(TestString("[\"\\a\"]"));				// Unknown escape character
@@ -357,30 +358,30 @@ TEST(Reader, ParseString_Error) {
 	// 4  Overlong sequences 
 
 	// 4.1  Examples of an overlong ASCII character
-	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xC0u, 0xAFu, '\"', ']', '\0'));
-	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xE0u, 0x80u, 0xAFu, '\"', ']', '\0'));
-	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xF0u, 0x80u, 0x80u, 0xAFu, '\"', ']', '\0'));
+	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xC0, 0xAF, '\"', ']', '\0'));
+	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xE0, 0x80, 0xAF, '\"', ']', '\0'));
+	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xF0, 0x80, 0x80, 0xAF, '\"', ']', '\0'));
 
 	// 4.2  Maximum overlong sequences 
-	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xC1u, 0xBFu, '\"', ']', '\0'));
-	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xE0u, 0x9Fu, 0xBFu, '\"', ']', '\0'));
-	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xF0u, 0x8Fu, 0xBFu, 0xBFu, '\"', ']', '\0'));
+	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xC1, 0xBF, '\"', ']', '\0'));
+	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xE0, 0x9F, 0xBF, '\"', ']', '\0'));
+	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xF0, 0x8F, 0xBF, 0xBF, '\"', ']', '\0'));
 
 	// 4.3  Overlong representation of the NUL character 
-	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xC0u, 0x80u, '\"', ']', '\0'));
-	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xE0u, 0x80u, 0x80u, '\"', ']', '\0'));
-	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xF0u, 0x80u, 0x80u, 0x80u, '\"', ']', '\0'));
+	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xC0, 0x80, '\"', ']', '\0'));
+	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xE0, 0x80, 0x80, '\"', ']', '\0'));
+	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xF0, 0x80, 0x80, 0x80, '\"', ']', '\0'));
 
 	// 5  Illegal code positions
 
 	// 5.1 Single UTF-16 surrogates
-	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xEDu, 0xA0u, 0x80u, '\"', ']', '\0'));
-	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xEDu, 0xADu, 0xBFu, '\"', ']', '\0'));
-	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xEDu, 0xAEu, 0x80u, '\"', ']', '\0'));
-	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xEDu, 0xAFu, 0xBFu, '\"', ']', '\0'));
-	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xEDu, 0xB0u, 0x80u, '\"', ']', '\0'));
-	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xEDu, 0xBEu, 0x80u, '\"', ']', '\0'));
-	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xEDu, 0xBFu, 0xBFu, '\"', ']', '\0'));
+	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xED, 0xA0, 0x80, '\"', ']', '\0'));
+	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xED, 0xAD, 0xBF, '\"', ']', '\0'));
+	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xED, 0xAE, 0x80, '\"', ']', '\0'));
+	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xED, 0xAF, 0xBF, '\"', ']', '\0'));
+	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xED, 0xB0, 0x80, '\"', ']', '\0'));
+	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xED, 0xBE, 0x80, '\"', ']', '\0'));
+	TEST_STRINGARRAY_ERROR(UTF8<>, ARRAY('[', '\"', 0xED, 0xBF, 0xBF, '\"', ']', '\0'));
 
 #undef ARRAY
 #undef TEST_STRINGARRAY_ERROR
