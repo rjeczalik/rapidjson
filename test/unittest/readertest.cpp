@@ -9,7 +9,16 @@ template<bool expect>
 struct ParseBoolHandler : BaseReaderHandler<> {
 	ParseBoolHandler() : step_(0) {}
 	void Default() { FAIL(); }
-	void Bool(bool b) { EXPECT_EQ(expect, b); ++step_; }
+	void Bool(bool b) { EXPECT_FALSE(b); ++step_; }
+
+	unsigned step_;
+};
+
+template<>
+struct ParseBoolHandler<true> : BaseReaderHandler<> {
+	ParseBoolHandler() : step_(0) {}
+	void Default() { FAIL(); }
+	void Bool(bool b) { EXPECT_TRUE(b); ++step_; }
 
 	unsigned step_;
 };
