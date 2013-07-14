@@ -26,6 +26,20 @@ http://www.ietf.org/rfc/rfc4627.txt
 
 Rapidjson is a header-only C++ library. Just copy the rapidjson/include/rapidjson folder to system or project's include path.
 
+**CMake**
+
+```bash
+$ git clone https://github.com/rjeczalik/rapidjson.git
+$ cd rapidjson; mkdir build; cd build
+$ cmake -DRAPIDJSON_USE_SSE2=1 ..
+$ make -j4
+$ ./test/unittest/rapidjson_unittest
+```
+
+For list of avaiable build options see [cmake/Findrapidjson.cmake](https://github.com/rjeczalik/rapidjson/blob/master/cmake/Findrapidjson.cmake).
+
+**Premake**
+
 To build the tests and examples,
 
 * obtain premake4 http://industriousone.com/premake/download
