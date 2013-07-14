@@ -4,8 +4,8 @@
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/thirdparty/gtest" "${CMAKE_BINARY_DIR}/gtest")
 
-enable_testing()
-find_package(GTest)
+include("${CMAKE_SOURCE_DIR}/thirdparty/gtest/cmake/internal_utils.cmake")
+fix_default_compiler_settings_()
 
 include_directories("." "${CMAKE_SOURCE_DIR}/thirdparty/gtest/include")
 
@@ -23,4 +23,13 @@ set(
 
 add_executable(rapidjson_unittest ${TEST_SRC})
 target_link_libraries(rapidjson_unittest gtest)
+
+# It should be
+#
+#  include(<path to CMake Modules>/FindGTest.cmake)
+#
+# instead to get rid of gtest-not-found warning.
+
+enable_testing()
+find_package(GTest)
 GTEST_ADD_TESTS(rapidjson_unittest "" ${TEST_SRC})
