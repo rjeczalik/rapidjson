@@ -1,6 +1,8 @@
 Rapidjson v0.1
 ==============
 
+[![Build Status](https://drone.io/github.com/rjeczalik/rapidjson/status.png)](https://drone.io/github.com/rjeczalik/rapidjson/latest)
+
 Copyright (c) 2011 Milo Yip (miloyip@gmail.com)
 
 http://code.google.com/p/rapidjson/
