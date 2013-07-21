@@ -41,7 +41,7 @@
 # -----------------------------------------------------------------------------------
 
 foreach(opt RAPIDJSON_INCLUDEDIR RAPIDJSON_USE_SSE2 RAPIDJSON_USE_SSE42)
-  if(DEFINED ${opt} AND DEFINED ENV{${opt}} AND NOT ${opt} STREQUAL "$ENV{${opt}}")
+  if(${opt} AND DEFINED ENV{${opt}} AND NOT ${opt} STREQUAL "$ENV{${opt}}")
     message(WARNING "Conflicting ${opt} values: ignoring environment variable and using CMake cache entry.")
   elseif(DEFINED ENV{${opt}} AND NOT ${opt})
     set(${opt} "$ENV{${opt}}")
