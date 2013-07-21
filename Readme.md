@@ -34,8 +34,8 @@ Rapidjson is a header-only C++ library. Just copy the rapidjson/include/rapidjso
 $ git clone --recursive https://github.com/rjeczalik/rapidjson.git
 $ cd rapidjson; mkdir build; cd build
 $ cmake -DRAPIDJSON_USE_SSE2=1 ..
-$ make -j4
-$ ./test/unittest/rapidjson_unittest
+$ make -j4; cd ../bin
+$ ./rapidjson_unittest
 ```
 
 For list of avaiable build options see [cmake/Findrapidjson.cmake](https://github.com/rjeczalik/rapidjson/blob/master/cmake/Findrapidjson.cmake).
