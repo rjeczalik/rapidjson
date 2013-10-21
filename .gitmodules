@@ -1,12 +1,12 @@
 [submodule "thirdparty/ultrajson"]
-	path = thirdparty/ultrajson
-	url = git://github.com/esnme/ultrajson.git
+  path = thirdparty/ultrajson
+  url = git://github.com/esnme/ultrajson.git
 [submodule "thirdparty/jsoncpp"]
-	path = thirdparty/jsoncpp
-	url = git://github.com/rjeczalik/json-cpp.git
+  path = thirdparty/jsoncpp
+  url = git://github.com/rjeczalik/json-cpp.git
 [submodule "thirdparty/gtest"]
-	path = thirdparty/gtest
-	url = git://github.com/cpp-netlib/gtest.git
+  path = thirdparty/gtest
+  url = git://github.com/cpp-netlib/gtest.git
 [submodule "thirdparty/yajl"]
-	path = thirdparty/yajl
-	url = git://github.com/lloyd/yajl.git
+  path = thirdparty/yajl
+  url = git://github.com/lloyd/yajl.git
