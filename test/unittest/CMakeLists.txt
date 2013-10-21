@@ -20,6 +20,9 @@ set(
 
 add_executable(rapidjson_unittest ${TEST_SRC})
 target_link_libraries(rapidjson_unittest ${GTEST_BOTH_LIBRARIES})
+if(UNIX)
+  target_link_libraries(rapidjson_unittest pthread)
+endif()
 
 enable_testing()
 GTEST_ADD_TESTS(rapidjson_unittest "" ${TEST_SRC})
