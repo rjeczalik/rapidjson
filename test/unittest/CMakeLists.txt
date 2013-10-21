@@ -2,12 +2,9 @@
 # Copyright (c) 2013 Rafal Jeczalik (rjeczalik@gmail.com)
 # Distributed under the MIT License (see license.txt file)
 
-add_subdirectory("${CMAKE_SOURCE_DIR}/thirdparty/gtest" "${CMAKE_BINARY_DIR}/gtest")
+find_package(GTest REQUIRED)
 
-include("${CMAKE_SOURCE_DIR}/thirdparty/gtest/cmake/internal_utils.cmake")
-fix_default_compiler_settings_()
-
-include_directories("." "${CMAKE_SOURCE_DIR}/thirdparty/gtest/include")
+include_directories("${GTEST_INCLUDE_DIRS}")
 
 set(
   TEST_SRC documenttest.cpp
@@ -22,14 +19,7 @@ set(
 )
 
 add_executable(rapidjson_unittest ${TEST_SRC})
-target_link_libraries(rapidjson_unittest gtest)
-
-# It should be
-#
-#  include(<path to CMake Modules>/FindGTest.cmake)
-#
-# instead to get rid of gtest-not-found warning.
+target_link_libraries(rapidjson_unittest ${GTEST_BOTH_LIBRARIES})
 
 enable_testing()
-find_package(GTest)
 GTEST_ADD_TESTS(rapidjson_unittest "" ${TEST_SRC})

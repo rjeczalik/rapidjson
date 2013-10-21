@@ -4,9 +4,6 @@
 [submodule "thirdparty/jsoncpp"]
   path = thirdparty/jsoncpp
   url = git://github.com/rjeczalik/json-cpp.git
-[submodule "thirdparty/gtest"]
-  path = thirdparty/gtest
-  url = git://github.com/cpp-netlib/gtest.git
 [submodule "thirdparty/yajl"]
   path = thirdparty/yajl
   url = git://github.com/lloyd/yajl.git
