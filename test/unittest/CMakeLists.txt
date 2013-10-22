@@ -3,6 +3,7 @@
 # Distributed under the MIT License (see license.txt file)
 
 find_package(GTest REQUIRED)
+find_package(Threads REQUIRED)
 
 include_directories("${GTEST_INCLUDE_DIRS}")
 
@@ -20,9 +21,7 @@ set(
 
 add_executable(rapidjson_unittest ${TEST_SRC})
 target_link_libraries(rapidjson_unittest ${GTEST_BOTH_LIBRARIES})
-if(UNIX)
-  target_link_libraries(rapidjson_unittest pthread)
-endif()
+target_link_libraries(rapidjson_unittest ${CMAKE_THREAD_LIBS_INIT})
 
 enable_testing()
 GTEST_ADD_TESTS(rapidjson_unittest "" ${TEST_SRC})

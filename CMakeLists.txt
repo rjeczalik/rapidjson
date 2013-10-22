@@ -3,7 +3,7 @@
 # Distributed under the MIT License (see license.txt file)
 
 cmake_minimum_required(VERSION 2.8)
-project(rapidjson CXX)
+project(rapidjson)
 
 option(RAPIDJSON_BUILD_EXAMPLES "Build rapidjson examples." ON)
 option(RAPIDJSON_BUILD_TESTS "Build rapidjson perftests and unittests." ON)
