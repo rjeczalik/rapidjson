@@ -8,15 +8,16 @@ find_package(Threads REQUIRED)
 include_directories("${GTEST_INCLUDE_DIRS}")
 
 set(
-  TEST_SRC documenttest.cpp
-           encodedstreamtest.cpp
-           encodingstest.cpp
-           filestreamtest.cpp
-           jsoncheckertest.cpp
-           readertest.cpp
-           unittest.cpp
-           valuetest.cpp
-           writertest.cpp
+    TEST_SRC
+    documenttest.cpp
+    encodedstreamtest.cpp
+    encodingstest.cpp
+    filestreamtest.cpp
+    jsoncheckertest.cpp
+    readertest.cpp
+    unittest.cpp
+    valuetest.cpp
+    writertest.cpp
 )
 
 add_executable(rapidjson_unittest ${TEST_SRC})

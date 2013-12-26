@@ -8,7 +8,11 @@ project(rapidjson)
 option(RAPIDJSON_BUILD_EXAMPLES "Build rapidjson examples." ON)
 option(RAPIDJSON_BUILD_TESTS "Build rapidjson perftests and unittests." ON)
 option(RAPIDJSON_USE_SSE2 "Configure rapidjson to use SSE2." OFF)
-option(RAPIDJSON_USE_SSE42 "Conifgure rapidjson to use SSE4.2, overwrites SSE2." OFF)
+option(
+    RAPIDJSON_USE_SSE42
+    "Conifgure rapidjson to use SSE4.2, overwrites SSE2."
+    OFF
+)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")

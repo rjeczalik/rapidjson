@@ -42,17 +42,24 @@
 
 foreach(opt RAPIDJSON_INCLUDEDIR RAPIDJSON_USE_SSE2 RAPIDJSON_USE_SSE42)
   if(${opt} AND DEFINED ENV{${opt}} AND NOT ${opt} STREQUAL "$ENV{${opt}}")
-    message(WARNING "Conflicting ${opt} values: ignoring environment variable and using CMake cache entry.")
+    message(
+        WARNING
+        "Conflicting ${opt} values: "
+        "ignoring environment variable and using CMake cache entry."
+    )
   elseif(DEFINED ENV{${opt}} AND NOT ${opt})
     set(${opt} "$ENV{${opt}}")
   endif()
 endforeach()
 
 find_path(
-  RAPIDJSON_INCLUDE_DIRS
-  NAMES rapidjson/rapidjson.h
-  PATHS ${RAPIDJSON_INCLUDEDIR}
-  DOC "Include directory for the rapidjson library."
+    RAPIDJSON_INCLUDE_DIRS
+    NAMES
+    rapidjson/rapidjson.h
+    PATHS
+    ${RAPIDJSON_INCLUDEDIR}
+    DOC
+    "Include directory for the rapidjson library."
 )
 
 mark_as_advanced(RAPIDJSON_INCLUDE_DIRS)
@@ -87,11 +94,14 @@ if(RAPIDJSON_FOUND)
   if(NOT rapidjson_FIND_QUIETLY)
     message(STATUS "Found rapidjson header files in ${RAPIDJSON_INCLUDE_DIRS}")
     if(DEFINED RAPIDJSON_CXX_FLAGS)
-      message(STATUS "Found rapidjson C++ extra compilation flags: ${RAPIDJSON_CXX_FLAGS}")
+      message(
+          STATUS
+          "Found rapidjson C++ extra compilation flags: ${RAPIDJSON_CXX_FLAGS}"
+      )
     endif()
   endif()
 elseif(rapidjson_FIND_REQUIRED)
-    message(FATAL_ERROR "Could not find rapidjson")
+  message(FATAL_ERROR "Could not find rapidjson")
 else()
   message(STATUS "Optional package rapidjson was not found")
 endif()
