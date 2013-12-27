@@ -1,6 +1,6 @@
-// JSON condenser exmaple
+// JSON condenser example
 
-// This example parses JSON text from stdin with validation, 
+// This example parses JSON text from stdin with validation,
 // and re-output the JSON content to stdout without whitespace.
 
 #include "rapidjson/reader.h"
@@ -10,22 +10,29 @@
 
 using namespace rapidjson;
 
-int main(int, char*[]) {
-	// Prepare JSON reader and input stream.
-	Reader reader;
-	char readBuffer[65536];
-	FileReadStream is(stdin, readBuffer, sizeof(readBuffer));
+int main() {
+  fprintf(stdout, "Enter json string (hit ctrl-D at end):\n");
 
-	// Prepare JSON writer and output stream.
-	char writeBuffer[65536];
-	FileWriteStream os(stdout, writeBuffer, sizeof(writeBuffer));
-	Writer<FileWriteStream> writer(os);
+  // Prepare JSON reader and input stream.
+  Reader reader;
+  char readBuffer[65536];
+  FileReadStream is(stdin, readBuffer, sizeof(readBuffer));
 
-	// JSON reader parse from the input stream and let writer generate the output.
-	if (!reader.Parse<0>(is, writer)) {
-		fprintf(stderr, "\nError(%u): %s\n", (unsigned)reader.GetErrorOffset(), reader.GetParseError());
-		return 1;
-	}
+  // Prepare JSON writer and output stream.
+  char writeBuffer[65536];
+  FileWriteStream os(stdout, writeBuffer, sizeof(writeBuffer));
+  Writer<FileWriteStream> writer(os);
 
-	return 0;
+  // JSON reader parse from the input stream and let writer generate the output.
+  if (!reader.Parse<0>(is, writer)) {
+    fprintf(
+        stderr,
+        "\nError(%u): %s\n",
+        (unsigned)reader.GetErrorOffset(),
+        reader.GetParseError()
+    );
+    return 1;
+  }
+
+  return 0;
 }
