@@ -5,8 +5,8 @@
 cmake_minimum_required(VERSION 2.8)
 project(rapidjson)
 
-option(RAPIDJSON_BUILD_EXAMPLES "Build rapidjson examples." ON)
-option(RAPIDJSON_BUILD_TESTS "Build rapidjson perftests and unittests." ON)
+option(RAPIDJSON_BUILD_EXAMPLES "Build rapidjson examples." OFF)
+option(RAPIDJSON_BUILD_TESTS "Build rapidjson perftests and unittests." OFF)
 option(RAPIDJSON_USE_SSE2 "Configure rapidjson to use SSE2." OFF)
 option(
     RAPIDJSON_USE_SSE42
@@ -32,7 +32,7 @@ else()
   endif()
 endif()
 
-include_directories(${RAPIDJSON_INCLUDE_DIRS})
+include_directories("./include")
 
 if(RAPIDJSON_BUILD_EXAMPLES)
   add_subdirectory(example)

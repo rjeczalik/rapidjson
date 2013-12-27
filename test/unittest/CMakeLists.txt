@@ -25,4 +25,4 @@ target_link_libraries(rapidjson_unittest ${GTEST_BOTH_LIBRARIES})
 target_link_libraries(rapidjson_unittest ${CMAKE_THREAD_LIBS_INIT})
 
 enable_testing()
-GTEST_ADD_TESTS(rapidjson_unittest "" ${TEST_SRC})
+add_test(RapidJSON rapidjson_unittest)
