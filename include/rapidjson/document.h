@@ -518,7 +518,7 @@ int z = a[0u].GetInt();				// This works too.
 		\param handler An object implementing concept Handler.
 	*/
 	template <typename Handler>
-	const GenericValue& Accept(Handler& handler) const {
+	const GenericValue& Accept(Handler& handler, bool copyStrings = false) const {
 		switch(GetType()) {
 		case kNullType:		handler.Null(); break;
 		case kFalseType:	handler.Bool(false); break;
@@ -527,8 +527,8 @@ int z = a[0u].GetInt();				// This works too.
 		case kObjectType:
 			handler.StartObject();
 			for (Member* m = data_.o.members; m != data_.o.members + data_.o.size; ++m) {
-				handler.String(m->name.data_.s.str, m->name.data_.s.length, false);
-				m->value.Accept(handler);
+				handler.String(m->name.data_.s.str, m->name.data_.s.length, copyStrings);
+				m->value.Accept(handler, copyStrings);
 			}
 			handler.EndObject(data_.o.size);
 			break;
@@ -536,12 +536,12 @@ int z = a[0u].GetInt();				// This works too.
 		case kArrayType:
 			handler.StartArray();
 			for (GenericValue* v = data_.a.elements; v != data_.a.elements + data_.a.size; ++v)
-				v->Accept(handler);
+				v->Accept(handler, copyStrings);
 			handler.EndArray(data_.a.size);
 			break;
 
 		case kStringType:
-			handler.String(data_.s.str, data_.s.length, false);
+			handler.String(data_.s.str, data_.s.length, copyStrings);
 			break;
 
 		case kNumberType:
@@ -781,8 +781,21 @@ public:
 	//! Get the capacity of stack in bytes.
 	size_t GetStackCapacity() const { return stack_.GetCapacity(); }
 
+        //! Deep copy of a Value tree from another document to this document
+        /*! \param destValue An existing value in this document, where the copy will be placed.
+            \param srcValue A value in any other document, where the deep copy will start.
+            \return The document itself for fluent API.
+        */
+        template <typename T>
+        GenericDocument& DeepCopy(ValueType &destValue, const GenericValue<Encoding, T> &srcValue, bool copyStrings = true) {
+                srcValue.Accept(*this, copyStrings);
+                destValue.RawAssign(*stack_.template Pop<ValueType>(1));
+                return *this;
+        }
+
 //private:
 	//friend class GenericReader<Encoding>;	// for Reader to call the following private handler functions
+        //friend class GenericValue<Encoding, Allocator>;         // For DeepCopy
 
 	// Implementation of Handler
 	void Null()	{ new (stack_.template Push<ValueType>()) ValueType(); }
