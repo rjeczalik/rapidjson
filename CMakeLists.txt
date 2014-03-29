@@ -28,3 +28,5 @@ endif()
 if(RAPIDJSON_BUILD_TESTS)
   add_subdirectory(test)
 endif()
+
+install(DIRECTORY include/rapidjson DESTINATION include)
