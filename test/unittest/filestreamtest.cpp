@@ -69,8 +69,7 @@ TEST_F(FileStreamTest, FileReadStream) {
 }
 
 TEST_F(FileStreamTest, FileWriteStream) {
-	char filename[L_tmpnam];
-	tmpnam(filename);
+	const char *filename = tempnam(0, "rjut");
 
 	FILE *fp = fopen(filename, "wb");
 	char buffer[65536];
